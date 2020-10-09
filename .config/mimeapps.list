@@ -1,0 +1,25 @@
+[Default Applications]
+text/x-shellscript=text.desktop;
+x-scheme-handler/magnet=torrent.desktop;
+application/x-bittorrent=torrent.desktop;
+x-scheme-handler/mailto=userapp-Thunderbird-NCK3R0.desktop
+text/plain=text.desktop;
+application/postscript=pdf.desktop;
+application/pdf=pdf.desktop;
+image/png=img.desktop;
+image/jpeg=img.desktop;
+image/gif=img.desktop;
+application/rss+xml=rss.desktop
+video/x-matroska=video.desktop
+x-scheme-handler/lbry=lbry.desktop
+inode/directory=file.desktop
+x-scheme-handler/eclipse+command x-scheme-handler/eclipse+mpc=_usr_lib_eclipse_.desktop
+message/rfc822=userapp-Thunderbird-NCK3R0.desktop
+
+[Added Associations]
+text/plain=mousepad.desktop;
+video/webm=mpv.desktop;org.xfce.Parole.desktop;
+video/mp4=mpv.desktop;org.xfce.Parole.desktop;
+inode/directory=pycharm.desktop;
+x-scheme-handler/mailto=userapp-Thunderbird-NCK3R0.desktop;
+message/rfc822=userapp-Thunderbird-NCK3R0.desktop;

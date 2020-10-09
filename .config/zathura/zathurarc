@@ -1,0 +1,20 @@
+# Enable copy to clipboard
+set selection-clipboard clipboard
+
+set statusbar-h-padding 0
+set statusbar-v-padding 0
+set page-padding 1
+map u navigate previous
+map d navigate next
+map D toggle_page_mode
+map r reload
+map R rotate
+map K zoom in
+map J zoom out
+map i recolor
+map p print
+set show-v-scrollbar true
+#set window-height 700
+#set window-width 740
+map b toggle_statusbar
+map B toggle_inputbar
