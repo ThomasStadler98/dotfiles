@@ -1,0 +1,34 @@
+#!/bin/bash
+# this script uses rsync to back up 3 partitions to an external hard disk
+#    it's configured for my circumstances with my laptop right now
+
+# FIRST DO THIS BY HAND
+# plug in HD on usb port
+# make sure it is  /dev/sda
+# now run the script
+sudo mount /dev/sda1 /mnt
+sudo rsync -ravz --progress --delete /media/DATA/ /mnt/rsyncDATA/
+sudo umount /dev/sda1
+sudo mount /dev/sda2 /mnt
+sudo rsync -ravzl --progress --delete /home/thomas /mnt/rsyncHOME/
+sudo umount /dev/sda2
+sudo mount /dev/sda3 /mnt
+sudo rsync -ravz --progress --delete /media/windowsC/ /mnt/rsyncWIN/
+sudo umount /dev/sda3
+echo "The 3 partitions were successfully backed up with rsync! :)"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

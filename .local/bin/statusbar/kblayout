@@ -1,0 +1,10 @@
+#!/bin/sh
+
+case $BLOCK_BUTTON in
+	1) togglekblayout ;;
+	2) ;;
+	3) notify-send "keyboard layout module" "\- Click to change the layout." ;;
+	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
+printf "$(cat ~/.local/share/kblayout)"

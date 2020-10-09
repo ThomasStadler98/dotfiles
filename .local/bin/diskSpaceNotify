@@ -1,0 +1,14 @@
+#!/bin/bash
+# this script is run on every login by ~/.profile
+
+# notfiy when / file system is full
+# TODO add more file systems (now only checks root / )
+
+    DEVNAME=$(df -h | grep "/$" | awk '{ print $1 }')
+    AVAIL_K=$(df -k | grep $DEVNAME | awk '{ print $4 }')
+    AVAIL_H=$(df -h | grep $DEVNAME | awk '{ print $4 }')
+    if ((AVAIL_K<5000000)) ; then
+        notify-send "Disk warning!" "Only $AVAIL_H left on $DEVNAME!" --icon=dialog-warning
+    else
+        notify-send "Disk information!" "$AVAIL_H left on $DEVNAME" --icon=dialog-information
+    fi

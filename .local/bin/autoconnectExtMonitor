@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# TODO use different method than xrandr -q to check if a monitor is connected or not for the first if check
+# TODO right now, the script does not care if more than 2 monitors are connected, could be a problem
+
+OUTPUT=$(xrandr -q | grep " connected ")
+
+MONS=$(echo "$OUTPUT" | wc -l)
+
+case "$MONS" in
+    2)
+        PRIM_MON=$(echo "$OUTPUT" | grep " connected primary" | awk '{print $1}') &&
+        SEC_MON=$(echo "$OUTPUT" | awk '{print $1}' | tail -n +2 | sed 1q) &&
+        xrandr --output "$PRIM_MON" --auto --output "$SEC_MON" --auto --right-of "$PRIM_MON" &&
+        notify-send "external monitor has been connected."
+        ;;
+    1)
+        echo "Only one display found."
+        ;;
+    0)
+        echo "No display found."
+        ;;
+    *)
+        echo "Complicated monitor setup. Requires manual setup through xrandr."
+        notify-send "Complicated monitor setup. Requires manual setup through xrandr."
+        ;;
+esac

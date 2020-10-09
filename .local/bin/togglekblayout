@@ -1,0 +1,18 @@
+#!/bin/bash
+
+cd ~/.local/share
+kblayout=$(cat ./kblayout)
+case $kblayout in
+    us)
+        setxkbmap de && echo "de" > ./kblayout
+        notify-send "DE keyboard layout"
+        ;;
+    de)
+        setxkbmap us && echo "us" > ./kblayout
+        notify-send "US keyboard layout"
+        ;;
+    ""|*)
+        setxkbmap us && echo "us" > ./kblayout
+        notify-send "US keyboard layout"
+        ;;
+esac

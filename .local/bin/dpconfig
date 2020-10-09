@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# change to your needs
+intern=eDP1
+extern=HDMI-1-2
+
+case "$1" in
+    "int")
+        xrandr --output "$extern" --off --output "$intern" --auto
+        ;;
+    "ext")
+        xrandr --output "$intern" --off --output "$extern" --auto
+        ;;
+    "both")
+        xrandr --output "$intern" --primary --auto --output "$extern" --right-of "$intern" --auto
+        ;;
+    "auto")
+        if xrandr | grep "$extern connected"; then
+            xrandr --output "$intern" --primary --auto --output "$extern" --right-of "$intern" --auto
+        fi
+        ;;
+    *)
+        echo "failed."
+        echo "possible \$1 parameters are:"
+        echo "int, ext, both"
+        ;;
+esac

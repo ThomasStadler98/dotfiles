@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo "--RAM USAGE--"
+free -h | awk '/^Mem:/ {print $3 "/" $2}'
+echo ""
+echo "--CPU TEMP--"
+sensors | awk '/^Pack/ {print $4}'
+echo ""
+echo "--RAM USAGE in %"
+ps axch -o cmd:15,%mem --sort=-%mem | head
+echo ""
+echo "--CPU USAGE in %"
+ps axch -o cmd:15,%cpu --sort=-%cpu | head
+echo ""
+
+
+

@@ -1,0 +1,40 @@
+#!/bin/bash
+# script for setting the maximum cpu frequency
+# with the program   cpupower
+
+# usage
+# --------------
+# setMaxCpuFreq 2.4        # Gigahertz Ghz
+v_help='--help'
+if [[ "$1" == "$v_help" ]] ; then
+    echo "Example of usage:   setMaxCpuFreq 2.4"
+    exit
+fi
+
+
+if [ -f /etc/default/cpupower ] ; then
+sudo sed -i "1s/m.*$/max_freq="$1Ghz"/g" /etc/default/cpupower
+sudo systemctl restart cpupower.service
+notify-send "Power Management!" "Maximum CPU frequency set to $1 Ghz" --icon=dialog-information
+else
+    echo "script FAILED"
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# nicht benutzt - alt
+
+#sudo sed -i '1s/m.*$/max_freq="1\.4Ghz"/g' /etc/default/cpupower      # works but with static variable 1.4Ghz
+
+
