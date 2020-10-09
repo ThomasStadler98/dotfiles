@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# This file runs when a DM logs you into a graphical session.
+
+# Autostart Pulseaudio if installed and not already started by init.
+# Chromium/Brave doesn't automatically start Pulse for some reason.
+#[ -x /usr/bin/pulseaudio ] &&
+#	! pidof pulseaudio >/dev/null &&
+#	setsid -f pulseaudio --start >/dev/null 2>&1
+
+#mpd &			# music player daemon, you might prefer it as a service though
+dunst & 		# dunst for notifications
+remaps &		# run the remaps script, switching caps/esc and more; check it for more info
+#setbg ~/.local/share/wallpapers/arch-linux-black-bg.png &
+setbg ~/.local/share/wallpapers/Arch-Linux-blue-desktop-kiss-Linux-logo-nice-wallpaper-1657915.png &
+#setbg ~/.local/share/dwt1_wallpapers &
+#xrdb ${XDG_CONFIG_HOME:-$HOME/.config}/Xresources &	# Uncomment to use Xresources colors/settings on startup
+xcompmgr &		# xcompmgr for transparency
+xset r rate 300 50 &	# Speed xrate up
+unclutter --timeout 3 &	# Remove mouse when idle
+redshift &              # adjust color temperature (night light)
+dpconfig auto &         # connects ext monitor if available
+toggletouchpad &        # disable touchpad
+dwmblocks &             # start status bar
+#sxhkd &                 # start sxhkd
+eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh); export SSH_AUTH_SOCK     # start gnome-keyring
