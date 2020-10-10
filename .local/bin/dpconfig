@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# change to your needs
+# change to your specific display names
 intern=eDP1
 extern=HDMI-1-2
 
