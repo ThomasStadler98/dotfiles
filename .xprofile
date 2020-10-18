@@ -8,21 +8,34 @@
 #	! pidof pulseaudio >/dev/null &&
 #	setsid -f pulseaudio --start >/dev/null 2>&1
 
-dpconfig auto &         # connects ext monitor if available (have to set your specific display names in the script)
-#mpd &			# music player daemon, you might prefer it as a service though
+###################
+# autostart section
+###################
+
+# programs, services
 dunst & 		# dunst for notifications
 remaps &		# run the remaps script, switching caps/esc and more; check it for more info
+xcompmgr &		# xcompmgr for transparency
+unclutter --timeout 3 &	# Remove mouse when idle
+redshift &              # adjust color temperature (night light)
+dwmblocks &             # start status bar
+eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh); export SSH_AUTH_SOCK     # start gnome-keyring
+#mpd &			# music player daemon, you might prefer it as a service though
+#sxhkd &                 # start sxhkd
+#xrdb ${XDG_CONFIG_HOME:-$HOME/.config}/Xresources &	# Uncomment to use Xresources colors/settings on startup
+
+# scripts
+dpconfig auto &         # connects ext monitor if available (have to set your specific display names in the script)
+toggletouchpad &        # disable touchpad
+
+#####################################################################
+# disable when using a full desktop environment like Gnome, Xfce, ...
+#####################################################################
+
+xss-lock -- slock &     # enable lock screen after waking from systemctl suspend and hibernate
+xset s off
+xset dpms 300 300 300   # set screensaver after 5 minutes
 #setbg ~/.local/share/wallpapers/arch-linux-black-bg.png &
 #setbg ~/.local/share/wallpapers/Arch-Linux-blue-desktop-kiss-Linux-logo-nice-wallpaper-1657915.png &
 setbg ~/.local/share/dwt1_wallpapers/0023.jpg &
 #setbg ~/.local/share/dwt1_wallpapers &
-#xrdb ${XDG_CONFIG_HOME:-$HOME/.config}/Xresources &	# Uncomment to use Xresources colors/settings on startup
-xcompmgr &		# xcompmgr for transparency
-xset r rate 300 50 &	# Speed xrate up
-unclutter --timeout 3 &	# Remove mouse when idle
-redshift &              # adjust color temperature (night light)
-toggletouchpad &        # disable touchpad
-dwmblocks &             # start status bar
-#sxhkd &                 # start sxhkd
-eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh); export SSH_AUTH_SOCK     # start gnome-keyring
-xss-lock -- slock &     # enable lock screen after waking from systemctl suspend and hibernate
