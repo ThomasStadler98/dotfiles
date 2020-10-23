@@ -12,7 +12,8 @@
 
 . ~/.xprofile
 
-#if bla set xrandr sec monitor
+
+#exec startxfce4
 
 while :; do
 	ssh-agent dwm
