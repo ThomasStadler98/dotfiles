@@ -1,0 +1,10 @@
+#!/bin/sh
+
+case $BLOCK_BUTTON in
+	1) togglescreensaver ;;
+	2) ;;
+	3) notify-send "screensaver toggle module" "\- Click to toggle automatic screensaver." ;;
+	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
+printf "$(cat ~/.local/share/screensaver_state)"
