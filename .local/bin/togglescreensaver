@@ -6,15 +6,15 @@ STATUSFILE="screensaver_state"
 
 case `cat $STATUSFILE` in
     ss_en)
-        xset dpms 0 0 0 && echo "ss_dis" > $STATUSFILE
+        xset s 0 0 && xset dpms 0 0 0 && echo "ss_dis" > $STATUSFILE
         notify-send "disabled screensaver"
         ;;
     ss_dis)
-        xset dpms 300 300 300 && echo "ss_en" > $STATUSFILE
+        xset s 300 300 && xset dpms 300 300 300 && echo "ss_en" > $STATUSFILE
         notify-send "enabled screensaver (5 minutes)"
         ;;
     ""|*)
-        xset dpms 0 0 0 && echo "ss_dis" > $STATUSFILE
+        xset s 0 0 && xset dpms 0 0 0 && echo "ss_dis" > $STATUSFILE
         notify-send "disabled screensaver"
         ;;
 esac

@@ -40,6 +40,7 @@ export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
 export ANSIBLE_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/ansible/ansible.cfg"
 export UNISON="${XDG_DATA_HOME:-$HOME/.local/share}/unison"
 export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/history"
+export TEXMFHOME="${XDG_CONFIG_HOME:-$HOME/.config}/texmf"
 
 # Other program settings:
 export DICS="/usr/share/stardict/dic/"
@@ -58,6 +59,7 @@ export QT_QPA_PLATFORMTHEME="gtk2"	# Have QT use gtk2 theme.
 export MOZ_USE_XINPUT2="1"		# Mozilla smooth scrolling/touchpads.
 export AWT_TOOLKIT="MToolkit wmname LG3D"	#May have to install wmname
 export _JAVA_AWT_WM_NONREPARENTING=1	# Fix for Java applications in dwm
+export TEXMFDIST="/usr/share/texmf-dist"
 
 # This is the list for lf icons:
 export LF_ICONS="di=📁:\

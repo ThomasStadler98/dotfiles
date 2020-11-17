@@ -13,8 +13,8 @@
 . ~/.xprofile
 
 
-#exec startxfce4
+exec startxfce4
 
-while :; do
-	ssh-agent dwm
-done
+# while :; do
+# 	ssh-agent dwm
+# done

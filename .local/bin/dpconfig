@@ -12,11 +12,13 @@ case "$1" in
         xrandr --output "$intern" --off --output "$extern" --auto
         ;;
     "both")
-        xrandr --output "$intern" --primary --auto --output "$extern" --right-of "$intern" --auto
+        xrandr --output "$intern" --primary --auto --output "$extern" --right-of "$intern" --mode 1920x1080 --rate 144.00
+        #xrandr --output "$intern" --primary --auto --output "$extern" --right-of "$intern" --auto
         ;;
     "auto")
         if xrandr | grep "$extern connected"; then
-            xrandr --output "$intern" --primary --auto --output "$extern" --right-of "$intern" --auto
+            xrandr --output "$intern" --primary --auto --output "$extern" --right-of "$intern" --mode 1920x1080 --rate 144.00
+            #xrandr --output "$intern" --primary --auto --output "$extern" --right-of "$intern" --auto
         fi
         ;;
     *)

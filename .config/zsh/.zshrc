@@ -8,8 +8,8 @@ stty stop undef		# Disable ctrl-s to freeze terminal.
 setopt interactivecomments  # activate bash style interactive comments with #
 
 # History in cache directory:
-HISTSIZE=10000000
-SAVEHIST=10000000
+HISTSIZE=1000
+SAVEHIST=1000
 HISTFILE=~/.cache/zsh/history
 #setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 #setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.

@@ -13,29 +13,30 @@
 ###################
 
 # programs, services
-dunst & 		# dunst for notifications
-remaps &		# run the remaps script, switching caps/esc and more; check it for more info
-xcompmgr &		# xcompmgr for transparency
+#dunst & 		# dunst for notifications
+#remaps &		# run the remaps script, switching caps/esc and more; check it for more info
+#xcompmgr &		# xcompmgr for transparency
 unclutter --timeout 3 &	# Remove mouse when idle
 redshift &              # adjust color temperature (night light)
-dwmblocks &             # start status bar
+echo "ss_en" > ~/.local/share/screensaver_state &     # workaround with my screensaver script and statusbar
 eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh); export SSH_AUTH_SOCK     # start gnome-keyring
 #mpd &			# music player daemon, you might prefer it as a service though
 #sxhkd &                 # start sxhkd
 #xrdb ${XDG_CONFIG_HOME:-$HOME/.config}/Xresources &	# Uncomment to use Xresources colors/settings on startup
 
 # scripts
-dpconfig auto &         # connects ext monitor if available (have to set your specific display names in the script)
 toggletouchpad &        # disable touchpad
 
 #####################################################################
 # disable when using a full desktop environment like Gnome, Xfce, ...
 #####################################################################
 
-xss-lock -- slock &     # enable lock screen after waking from systemctl suspend and hibernate
-xset s off
-xset dpms 300 300 300   # set screensaver after 5 minutes
-#setbg ~/.local/share/wallpapers/arch-linux-black-bg.png &
-#setbg ~/.local/share/wallpapers/Arch-Linux-blue-desktop-kiss-Linux-logo-nice-wallpaper-1657915.png &
-setbg ~/.local/share/dwt1_wallpapers/0023.jpg &
-#setbg ~/.local/share/dwt1_wallpapers &
+dwmblocks &             # start status bar
+# xss-lock -- slock &     # enable lock screen after waking from systemctl suspend and hibernate
+# xset s 300 300 &
+# xset dpms 300 300 300 & # set screensaver after 5 minutes
+# #setbg ~/.local/share/wallpapers/arch-linux-black-bg.png &
+# #setbg ~/.local/share/wallpapers/Arch-Linux-blue-desktop-kiss-Linux-logo-nice-wallpaper-1657915.png &
+# setbg ~/.local/share/dwt1_wallpapers/0023.jpg &
+# #setbg ~/.local/share/dwt1_wallpapers &
+#dpconfig auto &         # connects ext monitor if available (have to set your specific display names in the script)
