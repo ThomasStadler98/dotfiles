@@ -1,3 +1,7 @@
+###############
+# this is my howto file, where i try to write down useful commands for linux
+###############
+
 # convert image to pdf
 convert 1.png 2.png out.pdf
 
