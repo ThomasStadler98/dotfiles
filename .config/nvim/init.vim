@@ -11,13 +11,55 @@
 call plug#begin('~/.config/nvim/plugged')
 Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-css-color'
+Plug 'tpope/vim-surround'
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
+
+" Track the engine.
+Plug 'SirVer/ultisnips'
+" Snippets are separated from the engine. Add this if you want them:
+Plug 'honza/vim-snippets'
+" Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
+" - https://github.com/Valloric/YouCompleteMe
+" - https://github.com/nvim-lua/completion-nvim
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+Plug 'lervag/vimtex'
+
 call plug#end()
+
+" make vimtex work with deoplete
+" This is new style
+call deoplete#custom#var('omni', 'input_patterns', {
+      \ 'tex': g:vimtex#re#deoplete
+      \})
 
 " set <leader> key
 let mapleader =","
 
 " Spell-check set to <leader>o, 'o' for 'orthography':
 map <leader>o :setlocal spell! spelllang=en_us<CR>
+map <leader>k :setlocal spell! spelllang=de_at<CR>
+"map <leader>o :setlocal spell! spelllang=en_us<CR>
+
+" compile latex document
+"map <leader>c :w! \| !pdflatex Masterarbeit.tex&& biber Masterarbeit && pdflatex Masterarbeit.tex<CR>
+"map <leader>c :w! \| !pdflatex Report.tex&& bibtex Report && pdflatex Report.tex<CR>
+"map <leader>c :w! \| !pdflatex Presentation.tex<CR>
+map <leader>c :w! \| !pdflatex doc.tex<CR>
+"map <leader>c :w! \| !pdflatex Arbeit2Monitoring.tex<CR>
+"map <leader>c :w! \| !pdflatex Presentation.tex&& biber Presentation && pdflatex Presentation.tex<CR>
 
 " set colorscheme
 colorscheme gruvbox
@@ -134,7 +176,8 @@ set visualbell
 set t_vb=
 
 " Enable use of the mouse for all modes
-set mouse=a
+set mouse=
+"set mouse=a
 
 " Set the command window height to 2 lines, to avoid many cases of having to
 " "press <Enter> to continue"
