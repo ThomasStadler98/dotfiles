@@ -219,7 +219,7 @@ ${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m
     ^[a-zA-Z0-9._-]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$
     ^[\w\d._-]+@[\w\d]+\.[\w]{2,3}$  # \w and \d also match numbers in foreign languages and little bit more
 
-# terminate a no longer responding ssh session:
+# terminate a no longer responding / frozen ssh session:
 press "Enter", "~" and "." one after another in that order.
     # if you are connected from A to B, and from B to C:
     press ~~ tilde twice
@@ -473,3 +473,14 @@ ip.src == 192.168.1.117
 
 # uncommon http user agents
 cat http.log | bro-cut user_agent | sort | uniq | grep -vi -e ^mozilla -e ^opera -e ^microsoft > uncommon_user_agents.txt
+
+# latex no new page in chapter / disable page break, new page for chapter
+\makeatletter
+\renewcommand\chapter{\thispagestyle{plain}%
+\global\@topnum\z@
+\@afterindentfalse
+\secdef\@chapter\@schapter}
+\makeatother
+
+# rsync local website to cloud
+rsync -vrP --delete-after ~/thomasst.xyz/ root@95.179.253.54:/var/www/thomasst.xyz
