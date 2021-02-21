@@ -16,6 +16,7 @@ inode/directory=file.desktop
 x-scheme-handler/eclipse+command x-scheme-handler/eclipse+mpc=_usr_lib_eclipse_.desktop
 message/rfc822=userapp-Thunderbird-NCK3R0.desktop
 x-scheme-handler/msteams=teams.desktop
+text/x-troff-mm=freemind.desktop
 
 [Added Associations]
 text/plain=vim.desktop;mousepad.desktop;
@@ -28,3 +29,4 @@ application/x-cd-image=woeusbgui.desktop;xarchiver.desktop;
 text/x-tex=gvim.desktop;nvim.desktop;vim.desktop;texstudio.desktop;
 audio/mpeg=mpv.desktop;spek.desktop;
 application/pdf=atril.desktop;org.pwmt.zathura-pdf-mupdf.desktop;
+text/x-troff-mm=freemind.desktop;

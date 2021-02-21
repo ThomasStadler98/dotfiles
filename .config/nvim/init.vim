@@ -12,6 +12,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-css-color'
 Plug 'tpope/vim-surround'
+Plug 'pearofducks/ansible-vim'
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
