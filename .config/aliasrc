@@ -33,6 +33,7 @@ alias \
 	v="$EDITOR" \
         sv="sudo nvim" \
 	sp="sudo pacman" \
+        ss="sudo systemctl" \
 	xi="sudo xbps-install" \
 	xr="sudo xbps-remove -R" \
 	xq="xbps-query" \
