@@ -11,6 +11,9 @@ export P_DATA="/media/win"
 # Adds `~/.local/bin` to $PATH
 export PATH="$PATH:$(du "$HOME/.local/bin" | cut -f2 | paste -sd ':')"
 
+# add dotnet to PATH
+export PATH="$PATH:$HOME/.dotnet/tools"
+
 # Default programs:
 export EDITOR="nvim"
 export TERMINAL="st"
